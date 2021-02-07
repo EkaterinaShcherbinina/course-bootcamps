@@ -8,5 +8,13 @@
         </head>
         <body>
             <h1>You have logined successfully</h1>
+            <table style="with: 100%">
+                <tr>
+                    <p>You user name: ${user.email}</p>
+                </tr>
+                <tr>
+                    <p>You password: ${user.password}</p>
+                </tr>
+            </table>
         </body>
         </html>
