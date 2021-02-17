@@ -3,3 +3,9 @@
 target
 *.iml
 *out
+
+### Eclipse ###
+.settings
+build
+.project
+.classpath
