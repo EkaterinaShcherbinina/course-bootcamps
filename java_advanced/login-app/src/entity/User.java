@@ -5,6 +5,9 @@ public class User {
 	private String email;
 	private String seqQuestion;
 	private String seqAnswer;
+	private String role;
+
+	public User() {}
 	
 	public User(String userName, String password, String email,
 			String seqQuestion, String seqAnswer) {
@@ -53,5 +56,13 @@ public class User {
 
 	public void setSeqAnswer(String seqAnswer) {
 		this.seqAnswer = seqAnswer;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,13 +16,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import dbConnection.DBConnection;
 import entity.User;
+import utils.Utils;
 
 public class SignUpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		RequestDispatcher view = request.getRequestDispatcher("/Register.html");
+		view.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -30,20 +33,12 @@ public class SignUpServlet extends HttpServlet {
 				request.getParameter("email"), request.getParameter("sq"), request.getParameter("sa"));
 
 		if (isUserExist(user)) {
-			printResponse(response, "User is already exist");
+			Utils.printResponseMessage(response, "User is already exist");
 		} else {
 			if (addNewUser(user))
-				printResponse(response, "User is successfully added");
+				Utils.printResponseMessage(response, "User is successfully added");
 			else
-				printResponse(response, "Something was wrong. Please try again!");
-		}
-	}
-
-	private void printResponse(HttpServletResponse response, String message) {
-		try (PrintWriter writer = response.getWriter()) {
-			writer.println("<p><span style=\"color:red\">" + message + "</span></p>");
-		} catch (IOException e) {
-			e.printStackTrace();
+				Utils.printResponseMessage(response, "Something was wrong. Please try again!");
 		}
 	}
 
