@@ -1,6 +1,8 @@
 package assignment2_part1;
 
 
+import java.util.Iterator;
+
 public class ChoresArrayImpl<E> implements ChoresCollectionInterface<E>
 {
 	private E[] elements;
@@ -216,4 +218,8 @@ public class ChoresArrayImpl<E> implements ChoresCollectionInterface<E>
 		    return sublist;
 		   }
 
+	@Override
+	public Iterator<E> iterator() {
+		return null;
+	}
 }

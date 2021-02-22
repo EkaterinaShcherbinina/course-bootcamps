@@ -1,8 +1,8 @@
 package assignment2_part1;
 
+import java.util.Iterator;
 
-
-public class ChoresLinkedListImpl<E> implements ChoresCollectionInterface<E>
+public class ChoresLinkedListImpl<E extends Comparable> implements ChoresCollectionInterface<E>
 {
    protected LinkEntry<E> head;
    protected LinkEntry<E> tail;
@@ -18,10 +18,7 @@ public class ChoresLinkedListImpl<E> implements ChoresCollectionInterface<E>
     */
    public boolean is_empty()
    {
-      if (head == null) 
-          return true;
-
-      return false;
+      return head == null;
    }
 
    public boolean is_full() { return false; }
@@ -32,9 +29,7 @@ public class ChoresLinkedListImpl<E> implements ChoresCollectionInterface<E>
     * Adds element e at the end of the linked list. */
    public boolean add(E e)
    {
-      add(Where.BACK, e);
-      
-      return true;
+      return add(Where.BACK, e);
    }
 
    /**
@@ -44,9 +39,33 @@ public class ChoresLinkedListImpl<E> implements ChoresCollectionInterface<E>
     */
    public E remove(int i)
    {
-      /**
-       * Add code here. */
-      return null;
+      if(i < 1 || i > size()) return null;
+      E result = null;
+      if(head == tail) {
+         result = head.element;
+         head = tail = null;
+         --num_elements;
+         return result;
+      }
+
+      if(i == 1) {
+         result = head.element;
+         head = head.next;
+         --num_elements;
+         return  result;
+      }
+
+      int count = 0;
+      LinkEntry<E> temp = head;
+      while (i - 1 != count) {
+         temp = temp.next;
+         count++;
+      }
+      result = temp.next.element;
+      temp.next = temp.next.next;
+      if(i == size()) tail = temp;
+      --num_elements;
+      return result;
    }
 
    /**
@@ -55,9 +74,12 @@ public class ChoresLinkedListImpl<E> implements ChoresCollectionInterface<E>
     * Returns true if e is in the collection, false otherwise. */
    public boolean contains(E e)
    {
-      /**
-       * Add code here. */ 
-      return true;
+      LinkEntry<E> temp = head;
+      while(temp.next != null) {
+         if(temp.element.compareTo(e) == 0) return true;
+         temp = temp.next;
+      }
+      return false;
    }
 
    /**
@@ -86,8 +108,8 @@ public class ChoresLinkedListImpl<E> implements ChoresCollectionInterface<E>
          tail = ne;
       }
       else if (where == Where.FRONT)  {
-          /**
-           * Add code here. */
+          ne.next = head;
+          head = ne;
       }
       num_elements++;
       return true;
@@ -100,10 +122,23 @@ public class ChoresLinkedListImpl<E> implements ChoresCollectionInterface<E>
     *
     * Returns true if element added, false if where != MIDDLE. */
    public boolean add(Where where, int index, E e)  {
+      if(where != Where.MIDDLE) return false;
+      if(index < 1 || index > size()) return false;
+      if(index == size()) return add(Where.BACK, e);
 
-      /**
-       * Add code here. */
+      int count = 1;
+      LinkEntry<E> temp = head;
+      while(count != index) {
+         temp = temp.next;
+         count++;
+      }
+      LinkEntry<E> ne = new LinkEntry<E>();
+      ne.element = e;
 
+      ne.next = temp.next;
+      temp.next = ne;
+
+      num_elements++;
       return true;
    }
 
@@ -115,15 +150,19 @@ public class ChoresLinkedListImpl<E> implements ChoresCollectionInterface<E>
    public String toString()  {
 
       StringBuilder result = new StringBuilder();
- 
-      /**
-       * Add code here. 
-       * Traverse the linked list and serialize each object.  Add the
-       * serialized form to result. */
+
+      for (E val : this) {
+         result.append(val + "\n");
+      }
 
       return result.toString();
    }
-   
+
+   @Override
+   public Iterator<E> iterator() {
+      return new ChoresIterator();
+   }
+
 
    /* ------------------------------------------------------------------- */
    /* Inner classes                                                      */
@@ -133,6 +172,22 @@ public class ChoresLinkedListImpl<E> implements ChoresCollectionInterface<E>
       protected LinkEntry<E> next;
    }
    /* ------------------------------------------------------------------- */
+
+   private class ChoresIterator implements Iterator<E> {
+      private LinkEntry<E> current = head;
+
+      @Override
+      public boolean hasNext() {
+         return current != null;
+      }
+
+      @Override
+      public E next() {
+         E result = current.element;
+         current = current.next;
+         return result;
+      }
+   }
 
 } /* ChoresLinkedListImpl<E> */
 

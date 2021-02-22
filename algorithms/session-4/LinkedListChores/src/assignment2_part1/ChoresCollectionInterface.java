@@ -1,7 +1,6 @@
 package assignment2_part1;
 
-public interface ChoresCollectionInterface<E>
-{
+public interface ChoresCollectionInterface<E> extends Iterable<E> {
    /**
     * Determines if this data structure is at its capacity.
     * 
