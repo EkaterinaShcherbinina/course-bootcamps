@@ -11,3 +11,4 @@ build
 .classpath
 *lib
 *META-INF
+.metadata
