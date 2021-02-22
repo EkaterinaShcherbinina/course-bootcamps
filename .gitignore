@@ -9,4 +9,6 @@ target
 build
 .project
 .classpath
+*lib
+*META-INF
 .metadata
