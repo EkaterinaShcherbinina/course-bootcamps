@@ -2,7 +2,7 @@ package assignment2_part1;
 
 import java.util.Iterator;
 
-public class ChoresLinkedListImpl<E extends Comparable> implements ChoresCollectionInterface<E>
+public class ChoresLinkedListImpl<E extends Comparable<E>> implements ChoresCollectionInterface<E>
 {
    protected LinkEntry<E> head;
    protected LinkEntry<E> tail;
@@ -40,7 +40,7 @@ public class ChoresLinkedListImpl<E extends Comparable> implements ChoresCollect
    public E remove(int i)
    {
       if(i < 1 || i > size()) return null;
-      E result = null;
+      E result;
       if(head == tail) {
          result = head.element;
          head = tail = null;
@@ -93,7 +93,7 @@ public class ChoresLinkedListImpl<E extends Comparable> implements ChoresCollect
       if (where == Where.MIDDLE) 
           return false;
 
-      LinkEntry<E> ne = new LinkEntry<E>();
+      LinkEntry<E> ne = new LinkEntry<>();
       ne.element = e;
 
       if (head == null && tail == null)
@@ -132,7 +132,7 @@ public class ChoresLinkedListImpl<E extends Comparable> implements ChoresCollect
          temp = temp.next;
          count++;
       }
-      LinkEntry<E> ne = new LinkEntry<E>();
+      LinkEntry<E> ne = new LinkEntry<>();
       ne.element = e;
 
       ne.next = temp.next;
@@ -152,7 +152,7 @@ public class ChoresLinkedListImpl<E extends Comparable> implements ChoresCollect
       StringBuilder result = new StringBuilder();
 
       for (E val : this) {
-         result.append(val + "\n");
+         result.append(val).append("\n");
       }
 
       return result.toString();

@@ -1,13 +1,11 @@
 package assignment2_part1;
 
-
-
 public class LinkedListMain
 {
    public static void main(String[] args)
    {
       ChoresLinkedListImpl<Chores>
-                    chores_list = new ChoresLinkedListImpl<Chores>();
+                    chores_list = new ChoresLinkedListImpl<>();
 
       Chores a = new Chores("Make bed", 10);
       Chores b = new Chores("Do laundry", 5);
@@ -51,8 +49,6 @@ public class LinkedListMain
       System.out.println("Size of collection: " + chores_list.size());
       System.out.println("Collection contains:");
       System.out.println(chores_list);
-
-      return;
    }
 
 }

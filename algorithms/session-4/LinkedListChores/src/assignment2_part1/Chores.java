@@ -3,7 +3,7 @@ package assignment2_part1;
 public class Chores implements Comparable<Chores>
 {
    protected String chore_name;
-   protected int    chore_time;
+   protected int chore_time;
 
    public Chores(String n, int t)
    {

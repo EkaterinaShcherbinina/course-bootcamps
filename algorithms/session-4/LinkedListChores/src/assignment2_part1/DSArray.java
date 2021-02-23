@@ -1,11 +1,9 @@
 package assignment2_part1;
 
-
-
 public class DSArray
 {
    public static void main(String[] args) {
-      ChoresArrayImpl<Chores> chores_array = new ChoresArrayImpl<Chores>();
+      ChoresArrayImpl<Chores> chores_array = new ChoresArrayImpl<>();
 
       chores_array.add(new Chores("Make bed", 10));
       chores_array.add(new Chores("Make dinner", 20));
