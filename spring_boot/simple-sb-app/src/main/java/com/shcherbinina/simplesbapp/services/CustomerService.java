@@ -1,7 +1,6 @@
 package com.shcherbinina.simplesbapp.services;
 
 import com.shcherbinina.simplesbapp.dto.CustomerDto;
-import com.shcherbinina.simplesbapp.dto.DtoConverter;
 import com.shcherbinina.simplesbapp.entity.Customer;
 import com.shcherbinina.simplesbapp.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public List<CustomerDto> getAllCustomers() {
-        return customerRepository.findAll().stream().map(customer -> DtoConverter.getCustomerDto(customer)).collect(Collectors.toList());
+        return customerRepository.findAll().stream().map(CustomerDto::new).collect(Collectors.toList());
     }
 
     @Override
@@ -32,6 +31,6 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public CustomerDto getCustomerByIdJdbc(int id) {
-        return DtoConverter.getCustomerDto(customerRepository.customerById(id));
+        return new CustomerDto(customerRepository.customerById(id));
     }
 }

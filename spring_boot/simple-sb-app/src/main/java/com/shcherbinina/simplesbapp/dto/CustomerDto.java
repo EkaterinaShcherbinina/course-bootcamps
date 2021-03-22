@@ -38,8 +38,11 @@ public class CustomerDto extends RepresentationModel {
         name = customer.getName();
         phoneNumber = customer.getPhoneNumber();
         email = customer.getEmail();
+        addLinks();
+    }
+
+    private void addLinks() {
         add(linkTo(CustomerController.class).withRel("customers"));
-        //add(linkTo(methodOn(GymMembershipController.class).all(id)).withRel("memberships"));
-        add(linkTo(methodOn(CustomerController.class).allCustomers()).withSelfRel());
+        add(linkTo(methodOn(CustomerController.class).getCustomer(id)).withSelfRel());
     }
 }

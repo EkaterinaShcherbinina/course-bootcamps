@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value ="/customer")
+@RequestMapping(value ="/customers")
 public class CustomerController {
     @Autowired
     private ICustomerService customerService;
 
-    @GetMapping(value ="/all")
+    @GetMapping
     public List<CustomerDto> allCustomers() {
         return customerService.getAllCustomers();
     }

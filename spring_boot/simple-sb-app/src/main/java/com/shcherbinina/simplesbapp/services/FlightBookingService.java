@@ -1,7 +1,6 @@
 package com.shcherbinina.simplesbapp.services;
 
 import com.shcherbinina.simplesbapp.dto.BookedTicket;
-import com.shcherbinina.simplesbapp.dto.DtoConverter;
 import com.shcherbinina.simplesbapp.dto.TicketDto;
 import com.shcherbinina.simplesbapp.entity.Customer;
 import com.shcherbinina.simplesbapp.entity.Ticket;
@@ -12,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class FlightBookingService implements IBookingService {
     @Autowired
@@ -19,6 +21,7 @@ public class FlightBookingService implements IBookingService {
     @Autowired
     CustomerRepository customerRepository;
     private String message = "Ticket is already booked";
+    private String sourceTicketsMessage = "There aren't tickets with such source";
 
     @Override
     @Transactional
@@ -31,7 +34,7 @@ public class FlightBookingService implements IBookingService {
     }
 
     @Override
-    public void cancelTicket() {
+    public void cancelTicket(int id) {
 
     }
 
@@ -52,6 +55,14 @@ public class FlightBookingService implements IBookingService {
     @Override
     public TicketDto getTicket(int id) {
         Ticket ticket = ticketRepository.findById(id);
-        return DtoConverter.getTicketDto(ticket);
+        return new TicketDto(ticket);
+    }
+
+    @Override
+    public List<TicketDto> getTicketsBySource(String source) {
+        List<TicketDto> list = ticketRepository.findBySource(source).stream()
+                .map(TicketDto :: new).collect(Collectors.toList());
+        if(list.size() == 0) throw new EntityNotFoundException(sourceTicketsMessage);
+        return list;
     }
 }
