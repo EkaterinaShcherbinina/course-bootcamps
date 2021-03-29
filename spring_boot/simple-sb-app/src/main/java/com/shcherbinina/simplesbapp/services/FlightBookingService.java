@@ -7,6 +7,7 @@ import com.shcherbinina.simplesbapp.entity.Ticket;
 import com.shcherbinina.simplesbapp.exceptions.EntityNotFoundException;
 import com.shcherbinina.simplesbapp.repositories.CustomerRepository;
 import com.shcherbinina.simplesbapp.repositories.TicketRepository;
+import com.shcherbinina.simplesbapp.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,14 +29,15 @@ public class FlightBookingService implements IBookingService {
     public void bookTicket(BookedTicket bookedTicket) {
         Ticket ticket = ticketRepository.findById(bookedTicket.getTicketId());
         if(ticket.getCustomer() != null) throw new EntityNotFoundException(message);
-        Customer customer = customerRepository.findById(bookedTicket.getCustomerId());
+        Customer customer = customerRepository.findById(bookedTicket.getCustomerId()).orElseThrow(
+                () -> new EntityNotFoundException(String.format(Constants.customerNotFound, bookedTicket.getCustomerId())));
         ticket.setCustomer(customer);
         ticketRepository.save(ticket);
     }
 
     @Override
     public void cancelTicket(int id) {
-
+        System.out.println("Deleted: " + id);
     }
 
     @Override
@@ -60,9 +62,16 @@ public class FlightBookingService implements IBookingService {
 
     @Override
     public List<TicketDto> getTicketsBySource(String source) {
-        List<TicketDto> list = ticketRepository.findBySource(source).stream()
-                .map(TicketDto :: new).collect(Collectors.toList());
-        if(list.size() == 0) throw new EntityNotFoundException(sourceTicketsMessage);
+        List<TicketDto> list = null;
+        try {
+            list = ticketRepository.findBySource(source).stream()
+                    .map(TicketDto :: new).collect(Collectors.toList());
+
+        } catch (Exception ex) {
+
+        }
+        if(list == null || list.size() == 0)
+            throw new EntityNotFoundException(sourceTicketsMessage);
         return list;
     }
 }

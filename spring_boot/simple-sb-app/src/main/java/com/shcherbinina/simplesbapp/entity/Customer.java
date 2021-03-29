@@ -23,10 +23,14 @@ public class Customer {
 
     private String name;
 
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
     private String email;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
     private List<Ticket> tickets;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+    private List<Account> accounts;
 }

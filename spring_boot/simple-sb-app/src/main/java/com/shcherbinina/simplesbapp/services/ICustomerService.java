@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ICustomerService {
     List<CustomerDto> getAllCustomers();
-    void addNewCustomer(Customer newCustomer);
+    void addNewCustomer(CustomerDto newCustomer);
     CustomerDto getCustomerById(int id);
     CustomerDto getCustomerByIdJdbc(int id);
 }
