@@ -2,7 +2,9 @@ package com.shcherbinina.simplesbapp.services;
 
 import com.shcherbinina.simplesbapp.dto.CustomerDto;
 import com.shcherbinina.simplesbapp.entity.Customer;
+import com.shcherbinina.simplesbapp.exceptions.EntityNotFoundException;
 import com.shcherbinina.simplesbapp.repositories.CustomerRepository;
+import com.shcherbinina.simplesbapp.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +22,18 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public void addNewCustomer(Customer newCustomer) {
-        customerRepository.save(newCustomer);
+    public void addNewCustomer(CustomerDto newCustomer) {
+        Customer customer = new Customer();
+        customer.setName(newCustomer.getName());
+        customer.setEmail(newCustomer.getEmail());
+        customer.setPhoneNumber(newCustomer.getPhoneNumber());
+        customerRepository.save(customer);
     }
 
     @Override
     public CustomerDto getCustomerById(int id) {
-        return new CustomerDto(customerRepository.findById(id));
+        return new CustomerDto(customerRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException(String.format(Constants.customerNotFound, id))));
     }
 
     @Override

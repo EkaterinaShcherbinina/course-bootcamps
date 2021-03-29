@@ -27,7 +27,7 @@ public class CustomerController {
     }
 
     @PostMapping(value="/new")
-    public ResponseEntity<Object> newCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<Object> newCustomer(@RequestBody CustomerDto customer) {
         customerService.addNewCustomer(customer);
         return new ResponseEntity<>("Saved successfully", HttpStatus.CREATED);
     }

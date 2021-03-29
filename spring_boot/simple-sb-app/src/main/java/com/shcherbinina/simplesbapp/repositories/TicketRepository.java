@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     Ticket findById(int id);
-    List<Ticket> findBySource(String source);
+    List<Ticket> findBySource(String src);
 }
